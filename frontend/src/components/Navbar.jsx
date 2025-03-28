@@ -117,6 +117,9 @@ const Navbar = ({ user, setUser }) => {
                       <User size={16} />
                       <span>Profile</span>
                     </Link>
+                    <Link to='/saved' className="dropdown-item-home4">
+                      <span>Profile</span>
+                    </Link>
                     <button className="dropdown-item-home4" onClick={handleLogout}>
                       <LogOut size={16} />
                       <span>Logout</span>
