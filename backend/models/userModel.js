@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     tokens: { 
         type: Number, 
         default: function() {
-            return this.plan === 'Free' ? 100 : 999;
+            return this.plan === 'Free' ? 10 : 999;
         }
     },
     plan: { type: String, default: 'Free' },
