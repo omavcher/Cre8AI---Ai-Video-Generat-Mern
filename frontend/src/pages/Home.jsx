@@ -14,10 +14,7 @@ const Home = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (!storedUser) {
-        setTimeout(() => navigate("/login"), 5000);
-        return;
-      }
+      
 
       try {
         const res = await axios.get(`${BASE_URL}/video/userDetails`, {
