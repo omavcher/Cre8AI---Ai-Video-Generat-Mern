@@ -100,7 +100,7 @@ const Home = () => {
     }
 
     const options = {
-      key: "rzp_test_y6rhmgP580s3Yc",
+      key: "rzp_live_YHUPR56Ky9qPxC",
       amount: amount * 100,
       currency: "INR",
       name: "Cre8AI",
