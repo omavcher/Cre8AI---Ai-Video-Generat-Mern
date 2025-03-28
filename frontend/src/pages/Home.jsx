@@ -15,7 +15,6 @@ const Home = () => {
     const fetchUserDetails = async () => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       if (!storedUser) {
-        alert("Please login before use. Redirecting to login in 5 seconds...");
         setTimeout(() => navigate("/login"), 5000);
         return;
       }
@@ -95,7 +94,6 @@ const Home = () => {
 
   const handlePayment = async (amount, planName) => {
     if (!user) {
-      alert("Please login to proceed with payment. Redirecting to login in 5 seconds...");
       setTimeout(() => navigate("/login"), 5000);
       return;
     }
