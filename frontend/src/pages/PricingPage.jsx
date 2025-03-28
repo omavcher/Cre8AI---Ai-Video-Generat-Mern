@@ -111,7 +111,7 @@ const PricingPage = () => {
     }
 
     const options = {
-      key: "rzp_test_y6rhmgP580s3Yc", // Replace with your Razorpay key
+      key: "rzp_live_YHUPR56Ky9qPxC", // Replace with your Razorpay key
       amount: amount * 100, // Convert to paise (Razorpay expects amount in smallest unit)
       currency: "INR",
       name: "AI Video Generator",
