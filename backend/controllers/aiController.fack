@@ -1,0 +1,177 @@
+require("dotenv").config();
+const mongoose = require("mongoose");
+const AICreation = require("../models/AICreation");
+
+const languageMap = {
+    "english": "en",
+    "hindi": "hi",
+    "spanish": "es",
+    "french": "fr",
+    "german": "de",
+    "tamil": "ta",
+    "telugu": "te",
+    "marathi": "mr",
+};
+
+const formatDimensions = {
+    "square": { width: 512, height: 512 },
+    "vertical": { width: 512, height: 910 },
+    "landscape": { width: 910, height: 512 },
+};
+
+// Mock data to send at the end
+const mockAiCreationData = {
+    "user": "67da50724de28286d23986a9",
+    "platform": "instagram",
+    "format": "vertical",
+    "voiceOverText": "They say the old Haveli whispers secrets in the wind.  Generations of sorrow echo within its crumbling walls.  One night, a group of friends dared to explore its darkened corridors...seeking thrills, unaware of the chilling truth that awaited. The air grew heavy, a sense of dread settled upon them.  Whispers turned to screams. A shadow moved…faster than the eye could see.  Then…silence. Only one scream was heard that night. One.  What happened? You decide.",
+    "gttsLanguage": "en",
+    "seo": {
+        "title": "Haunted Haveli Horror: One Night, One Scream!",
+        "description": "Experience the chilling tale of a haunted Haveli in this terrifying vertical video. One night, a group of friends dared to enter…only one scream was heard.  #IndianHorror",
+        "keywords": [
+            "Haunted Haveli",
+            "Indian Horror",
+            "Spooky Vibes",
+            "Vertical Video",
+            "Horror Short",
+            "One Night One Scream",
+            "Scary Story",
+            "Ghost Story",
+            "Indian Mythology",
+            "Suspense"
+        ],
+        "hashtags": [
+            "#IndianHorror",
+            "#SpookyVibes",
+            "#HauntedHaveli",
+            "#HorrorShorts",
+            "#ShortFilm"
+        ],
+        "bestTimeToPostIndia": "7:00 PM"
+    },
+    "audioUrl": "https://res.cloudinary.com/dg9qjhpsc/video/upload/v1742591162/jymdaezmvkavxtus4jwe.mp3",
+    "imageUrls": [
+        "https://res.cloudinary.com/dg9qjhpsc/image/upload/v1742591218/g3xszjmolf2rzky4tbcy.webp",
+        "https://res.cloudinary.com/dg9qjhpsc/image/upload/v1742591220/vfdpoekg1wopkwgy1r7i.webp",
+        "https://res.cloudinary.com/dg9qjhpsc/image/upload/v1742591221/dydqgiks1sewh5ouujzb.webp",
+        "https://res.cloudinary.com/dg9qjhpsc/image/upload/v1742591222/sabx6ooeohh1gh8y3wxx.webp",
+        "https://res.cloudinary.com/dg9qjhpsc/image/upload/v1742591224/wlmehh7fuwja1n16wlyw.webp"
+    ],
+    "thumbnailUrl": "https://res.cloudinary.com/dg9qjhpsc/image/upload/v1742591181/qyv0nidtnizeueph6exv.webp",
+    "videoUrl": null
+};
+
+// Original generateVideoIdeas (unchanged)
+const generateVideoIdeas = async (req, res) => {
+    try {
+        const { platform } = req.body;
+        if (!platform) {
+            return res.status(400).json({ success: false, message: "Platform selection is required" });
+        }
+
+        const prompt = `Generate a short video idea suitable for ${platform} in India. The idea should be engaging and fit the platform's audience, such as a mini-story, thrilling moment, horror twist, or an exciting trend, not like big give in text almost 10-20 words with some emojis. only one`;
+        res.json({ success: true, idea: "A thrilling horror twist awaits in an old Indian Haveli!" }); // Mock idea
+    } catch (error) {
+        console.error("Error in generateVideoIdeas:", error.message, error.stack);
+        res.status(500).json({ success: false, message: "Error generating ideas", error: error.message });
+    }
+};
+
+// Mock generateVideoStructure for testing
+const generateVideoStructure = async (req, res) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders();
+
+    const sendEvent = (event, data) => {
+        res.write(`event: ${event}\n`);
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+
+    try {
+        const { platform, format, language, voiceType, backgroundMusic, videoEffects, idea } = req.body;
+
+        // Validation (same as original)
+        if (!platform || !format || !language || !voiceType || backgroundMusic === undefined || !videoEffects || !idea) {
+            sendEvent("error", { success: false, message: "All fields are required" });
+            return res.end();
+        }
+
+        if (!req.user || !req.user._id) {
+            sendEvent("error", { success: false, message: "User not authenticated" });
+            return res.end();
+        }
+
+        const dimensions = formatDimensions[format.toLowerCase()];
+        if (!dimensions) {
+            sendEvent("error", { success: false, message: `Format '${format}' is not supported. Use 'square', 'vertical', or 'landscape'` });
+            return res.end();
+        }
+
+        const gttsLanguage = languageMap[language.toLowerCase()];
+        if (!gttsLanguage) {
+            sendEvent("error", { success: false, message: `Language '${language}' is not supported` });
+            return res.end();
+        }
+
+        // Simulate event stream
+        const totalSteps = 1 + 1 + 5; // Audio + Thumbnail + 5 Images
+        let completedSteps = 0;
+        const initialTimePerStep = 2; // 2 seconds per step for testing speed
+        let estimatedTime = totalSteps * initialTimePerStep;
+
+        // Send initial events
+        sendEvent("title", { title: mockAiCreationData.seo.title });
+        sendEvent("description", { description: mockAiCreationData.seo.description });
+        sendEvent("progress", { percentage: 0, estimatedTime });
+
+        // Simulate audio generation
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay
+        completedSteps++;
+        estimatedTime = (totalSteps - completedSteps) * initialTimePerStep;
+        sendEvent("progress", { percentage: (completedSteps / totalSteps) * 100, estimatedTime });
+
+        // Simulate thumbnail generation
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay
+        sendEvent("firstThumbnail", { url: mockAiCreationData.thumbnailUrl });
+        completedSteps++;
+        estimatedTime = (totalSteps - completedSteps) * initialTimePerStep;
+        sendEvent("progress", { percentage: (completedSteps / totalSteps) * 100, estimatedTime });
+
+        // Simulate image generation (5 images)
+        for (let i = 0; i < 5; i++) {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay per image
+            completedSteps++;
+            estimatedTime = (totalSteps - completedSteps) * initialTimePerStep;
+            sendEvent("progress", { percentage: (completedSteps / totalSteps) * 100, estimatedTime });
+        }
+
+        // Simulate MongoDB save
+        const aiCreationData = { ...mockAiCreationData };
+        const aiCreation = new AICreation(aiCreationData);
+        await aiCreation.save();
+        console.log("Mock saved to MongoDB with ID:", aiCreation._id);
+        aiCreationData._id = aiCreation._id.toString(); // Add mock _id
+
+        // Send complete event with mock data
+        sendEvent("complete", {
+            success: true,
+            message: "Video structure, audio, thumbnail, images, and SEO generated and saved successfully (mock)",
+            aiCreation: aiCreationData,
+            localJsonPath: `/json/mock_${platform}_${format}_${Date.now()}.json`,
+        });
+        res.end();
+    } catch (error) {
+        console.error("Error in generateVideoStructureMock:", JSON.stringify(error, null, 2));
+        sendEvent("error", { success: false, message: "An unexpected error occurred in mock generation." });
+        res.end();
+    }
+};
+
+// Export both for flexibility (use generateVideoStructureMock for testing)
+module.exports = {
+    generateVideoIdeas,
+    generateVideoStructure, // Use this for testing
+};

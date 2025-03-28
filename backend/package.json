@@ -1,0 +1,37 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^6.0.0",
+    "@google/generative-ai": "^0.24.0",
+    "@gradio/client": "^1.13.1",
+    "@remotion/bundler": "^4.0.279",
+    "@remotion/renderer": "^4.0.279",
+    "assemblyai": "^4.9.0",
+    "axios": "^1.8.3",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.6.0",
+    "cors": "^2.8.5",
+    "diffusion": "^6.11.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.2.0",
+    "fs": "^0.0.1-security",
+    "gtts": "^0.2.1",
+    "image-size": "^2.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1",
+    "node-powershell": "^5.0.1",
+    "openai": "^4.87.4",
+    "remotion": "^4.0.279",
+    "say": "^0.16.0"
+  }
+}
