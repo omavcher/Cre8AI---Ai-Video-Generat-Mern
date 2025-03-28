@@ -1,6 +1,5 @@
 const User = require('../models/userModel');
 const AICreation = require('../models/AICreation');
-const { renderMedia, bundle, selectComposition } = require('@remotion/renderer');
 const path = require("path");
 const fs = require('fs').promises; // Use promises for async operations
 const mongoose = require("mongoose");
@@ -23,82 +22,7 @@ const getAICreationById = async (req, res) => {
 
 
 const exportVideo = async (req, res) => {
-  const { videoId, audioUrl, imageUrls, subtitles, durationInFrames, format } = req.body;
 
-  // Validate required fields
-  if (!videoId || !audioUrl || !imageUrls || !durationInFrames) {
-    return res.status(400).json({
-      error: 'Missing required fields: videoId, audioUrl, imageUrls, or durationInFrames',
-    });
-  }
-
-  // Determine dimensions based on format
-  const getDimensions = () => {
-    switch (format) {
-      case 'square':
-        return { width: 1080, height: 1080 };
-      case 'vertical':
-        return { width: 1080, height: 1920 };
-      case 'landscape':
-      default:
-        return { width: 1920, height: 1080 };
-    }
-  };
-
-  const { width, height } = getDimensions();
-
-  try {
-    // Define output path for the exported video
-    const outputDir = path.join(__dirname, '..', 'exported_videos');
-    const outputPath = path.join(outputDir, `${videoId}.mp4`);
-
-    // Ensure the output directory exists
-    await fs.mkdir(outputDir, { recursive: true });
-
-    // Path to your Remotion project root (adjust this to your frontend directory)
-    const remotionRoot = path.join(__dirname, '..', '..', 'frontend'); // e.g., path to your React app
-
-    // Bundle the Remotion project
-    const bundleLocation = await bundle({
-      entryPoint: path.join(remotionRoot, 'src', 'index.js'), // Adjust to your entry file
-      webpackOverride: (config) => config, // Optional: Customize Webpack config if needed
-    });
-
-    // Select the composition from the bundle
-    const composition = await selectComposition({
-      serveUrl: bundleLocation,
-      id: 'RemotionVideo', // Must match your composition ID
-      defaultProps: {
-        audioUrl,
-        imageUrls,
-        subtitles: subtitles || [],
-        gttsLanguage: req.body.gttsLanguage || 'en',
-        voiceOverText: req.body.voiceOverText || '',
-      },
-    });
-
-    // Perform the rendering with Remotion
-    await renderMedia({
-      composition,
-      serveUrl: bundleLocation,
-      codec: 'h264',
-      outputLocation: outputPath,
-      fps: 30,
-    });
-
-    // Respond with success and file path
-    res.status(200).json({
-      message: 'Video exported successfully',
-      path: outputPath,
-      url: `/exported_videos/${videoId}.mp4`,
-    });
-  } catch (error) {
-    console.error('Video export failed:', error);
-    res.status(500).json({
-      error: 'Video export failed',
-      details: error.message,
-    });
-  }
 };
 
 
