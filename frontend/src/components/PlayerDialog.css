@@ -1,0 +1,282 @@
+/* PlayerDialog.css */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.dialog-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Format-specific dialog box styles */
+.dialog-box.vertical {
+  max-width: 400px; /* Narrower for vertical */
+}
+
+.dialog-box.square {
+  max-width: 600px; /* Square needs balanced width */
+}
+
+.dialog-box.landscape {
+  max-width: 1000px; /* Wider for landscape */
+}
+
+.dialog-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.player-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.player-container video {
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.cancel-button {
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.export-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #fb4b04;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.export-button:hover:not(:disabled) {
+  background-color: #e73c00;
+}
+
+.export-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.export-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  border-radius: 12px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #fb4b04;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.export-overlay p {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dialog-box {
+      padding: 1rem;
+      max-width: 95vw;
+      max-height: 85vh;
+  }
+
+  .dialog-box.vertical {
+      max-width: 300px;
+  }
+
+  .dialog-box.square {
+      max-width: 450px;
+  }
+
+  .dialog-box.landscape {
+      max-width: 700px;
+  }
+
+  .dialog-heading {
+      font-size: 1.25rem;
+  }
+
+  .player-container video {
+      max-height: 50vh;
+  }
+
+  .button-container {
+      gap: 0.75rem;
+  }
+
+  .cancel-button, .export-button {
+      padding: 0.5rem 1rem;
+      width: 100%;
+  }
+
+  .export-overlay p {
+      font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dialog-box {
+      padding: 0.75rem;
+  }
+
+  .dialog-box.vertical {
+      max-width: 250px;
+  }
+
+  .dialog-box.square {
+      max-width: 350px;
+  }
+
+  .dialog-box.landscape {
+      max-width: 100%;
+  }
+
+  .dialog-heading {
+      font-size: 1.1rem;
+  }
+
+  .player-container video {
+      max-height: 40vh;
+  }
+
+  .cancel-button, .export-button {
+      font-size: 0.9rem;
+  }
+
+  .spinner {
+      width: 30px;
+      height: 30px;
+      border-width: 3px;
+  }
+}
+
+/* Animation keyframes */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.dialog-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  max-width: 90vw; /* Adaptive width */
+  max-height: 90vh; /* Prevents overflow */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+}
+
+
+
+.dialog-box.square {
+  width: 80vw;
+  max-width: 600px;
+}
+
+.dialog-box.landscape {
+  width: 90vw;
+  max-width: 1000px;
+}
+
+.player-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-height: 75vh;
+  overflow: hidden;
+}
+
+.player-container video {
+  width: 100%;
+  height: auto; /* Maintains aspect ratio */
+  max-height: 60vh; /* Prevents excessive stretching */
+  object-fit: contain;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Ensures buttons wrap on small screens */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Improve button scaling on small screens */
+.cancel-button,
+.export-button {
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+  max-width: 200px; /* Prevents buttons from being too wide */
+  text-align: center;
+}

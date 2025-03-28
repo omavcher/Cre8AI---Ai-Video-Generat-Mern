@@ -1,0 +1,104 @@
+.about-container {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 20px;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    margin-top: 2rem;
+  }
+  
+  .about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .about-container h1 {
+    color: #fa4a04;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .about-profile-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .about-profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fa4a04;
+  }
+  
+  .about-profile-section h2 {
+    margin: 10px 0;
+    color: #000000;
+  }
+  
+  .about-profile-section a {
+    color: #fa4a04;
+    text-decoration: none;
+  }
+  
+  .about-profile-section a:hover {
+    text-decoration: underline;
+  }
+  
+  .about-section {
+    margin-bottom: 30px;
+  }
+  
+  .about-section h3 {
+    color: #fa4a04;
+    border-bottom: 2px solid #fa4a04;
+    padding-bottom: 5px;
+  }
+  
+  .about-project h4 {
+    color: #000000;
+    margin-top: 15px;
+  }
+  
+  .about-project {
+    margin-bottom: 20px;
+  }
+  
+  .about-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .about-container {
+      padding: 15px;
+    }
+  
+    .about-profile-photo {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .about-container h1 {
+      font-size: 1.5em;
+    }
+  
+    .about-section h3 {
+      font-size: 1.2em;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .about-profile-photo {
+      width: 80px;
+      height: 80px;
+    }
+  
+    .about-container h1 {
+      font-size: 1.2em;
+    }
+  
+    .about-section h3 {
+      font-size: 1em;
+    }
+  }

@@ -1,0 +1,90 @@
+.video-preview-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.video-preview-dialog {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.player-container {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.close-button {
+    padding: 0.75rem 2rem;
+    background: #FB4B04;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.close-button:hover {
+    background: #e73c00;
+}
+
+.video-preview-dialog.landscape {
+    max-width: 1000px;
+}
+
+.video-preview-dialog.vertical {
+    max-width: 400px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .video-preview-dialog {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .dialog-heading {
+        font-size: 1.25rem;
+    }
+
+    .close-button {
+        padding: 0.5rem 1.5rem;
+    }
+}
+
+.preview-button {
+    background: #4a5568;
+    color: white;
+}
+
+.preview-button:hover {
+    background: #2d3748;
+}
