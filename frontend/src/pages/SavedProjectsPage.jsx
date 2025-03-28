@@ -8,7 +8,7 @@ import './SavedProjectsPage.css';
 import axios from 'axios';
 import { BASE_URL } from "../config/api";
 import ExportDialog from '../components/ExportDialog';
-import VideoPreviewDialog from '../components/VideoPreviewDialog.JSX';
+import VideoPreviewDialog from '../components/VideoPreviewDialog.jsx';
 
 const SavedProjectsPage = () => {
   const [searchParams] = useSearchParams();
