@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Plus, Home, Wand2, User, LogOut } from 'lucide-react';
+import { Menu, X, Plus, Home, Wand2, User, LogOut , FileVideo} from 'lucide-react';
 import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -118,7 +118,8 @@ const Navbar = ({ user, setUser }) => {
                       <span>Profile</span>
                     </Link>
                     <Link to='/saved' className="dropdown-item-home4">
-                      <span>Profile</span>
+                      <FileVideo size={16}/>
+                      <span>Saved</span>
                     </Link>
                     <button className="dropdown-item-home4" onClick={handleLogout}>
                       <LogOut size={16} />
