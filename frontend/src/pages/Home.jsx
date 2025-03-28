@@ -23,7 +23,6 @@ const Home = () => {
         setUser(res.data);
       } catch (error) {
         console.error("Error fetching user details:", error);
-        alert("Please try again later.");
       }
     };
 
