@@ -78,7 +78,7 @@ const ExportDialog = ({ onClose, onDownload, videoId }) => {
     }
 
     const options = {
-      key: "rzp_test_y6rhmgP580s3Yc", // Replace with your Razorpay key
+      key: "rzp_live_YHUPR56Ky9qPxC", // Replace with your Razorpay key
       amount: paymentAmount * 100, // Amount in paise
       currency: "INR",
       name: "Video Download",
