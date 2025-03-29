@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -46,38 +46,53 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
-            <Route path="/buy-tokens" element={<PricingPage/>} />
+            <Route path="/buy-tokens" element={<PricingPage />} />
             <Route path="/about" element={<About />} />
-            <Route path='contact' element={<Contact />} />
-            <Route path='privacy' element={<Privacy />} />
-            <Route path='terms' element={<Terms />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
 
             {/* Protected Routes */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute user={user}>
-                <CreateContent />
-              </ProtectedRoute>
-            } />
-            <Route path="/create" element={
-              <ProtectedRoute user={user}>
-                <CreateContent />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute user={user}>
-                <ProfilePage user={user} />
-              </ProtectedRoute>
-            } />
-            <Route path="/saved" element={
-              <ProtectedRoute user={user}>
-                <SavedProjectsPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/ai-setting" element={
-              <ProtectedRoute user={user}>
-                <AiSetting />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute user={user}>
+                  <CreateContent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <ProtectedRoute user={user}>
+                  <CreateContent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute user={user}>
+                  <ProfilePage user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/saved"
+              element={
+                <ProtectedRoute user={user}>
+                  <SavedProjectsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ai-setting"
+              element={
+                <ProtectedRoute user={user}>
+                  <AiSetting />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </div>
