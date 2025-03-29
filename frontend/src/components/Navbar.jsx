@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Plus, Home, Wand2, User, LogOut, FileVideo } from 'lucide-react';
+import { Menu, X, Plus, Home, Wand2, User, LogOut , FileVideo} from 'lucide-react';
 import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,49 +15,54 @@ const Navbar = ({ user, setUser }) => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    // Close dropdown when menu is toggled
     if (isDropdownOpen) setIsDropdownOpen(false);
   };
 
   const toggleDropdown = (e) => {
     e.stopPropagation();
     setIsDropdownOpen(!isDropdownOpen);
-    // Close menu when dropdown is toggled
-    if (isMenuOpen) setIsMenuOpen(false);
   };
 
   const handleLogout = () => {
+    // Clear user data from localStorage
     localStorage.removeItem('user');
     setUser(null);
     setIsDropdownOpen(false);
     setIsMenuOpen(false);
+    // Redirect to home
     navigate('/');
   };
 
-  const handleLogin = () => navigate('/login');
-  const handleSignup = () => navigate('/signup');
-  const handleBuyTokens = () => navigate('/buy-tokens');
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleSignup = () => {
+    navigate('/signup');
+  };
+
+  const handleBuyTokens = () => {
+    navigate('/buy-tokens');
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current && !dropdownRef.current.contains(event.target) &&
+        menuRef.current && !menuRef.current.contains(event.target)
+      ) {
         setIsDropdownOpen(false);
-      }
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
     };
 
-    // Add both mouse and touch events
     document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
-    
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, []);
 
+  // Get first letter of name for avatar
   const getInitial = () => {
     return user?.name ? user.name.charAt(0).toUpperCase() : '?';
   };
@@ -65,8 +70,6 @@ const Navbar = ({ user, setUser }) => {
   useEffect(() => { 
     const fetchCredit = async () => {
       const user = JSON.parse(localStorage.getItem('user'));
-      if (!user?.token) return;
-      
       try {
         const res = await axios.get(`${BASE_URL}/video/credit`, {
           headers: { Authorization: `Bearer ${user.token}` }
@@ -81,7 +84,9 @@ const Navbar = ({ user, setUser }) => {
     };
 
     fetchCredit();
-  }, [user]); // Add user as dependency
+  }, []);
+
+
 
   return (
     <nav className="navbar">
@@ -107,6 +112,7 @@ const Navbar = ({ user, setUser }) => {
                 </button>
                 {isDropdownOpen && (
                   <div className="dropdown-menu-home4">
+
                     <Link to='/profile' className="dropdown-item-home4">
                       <User size={16} />
                       <span>Profile</span>
@@ -133,6 +139,9 @@ const Navbar = ({ user, setUser }) => {
 
         {/* Mobile Navigation */}
         <div className="mobile-nav" ref={menuRef}>
+          <button className="avatar-button-navbar3 mobile-avatar" onClick={toggleDropdown}>
+            <div className="avatar-e-navbar3">{getInitial()}</div>
+          </button>
           <button className="mobile-menu-button" onClick={toggleMenu}>
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -142,11 +151,7 @@ const Navbar = ({ user, setUser }) => {
         <div className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}>
           {user ? (
             <>
-              <div className="mobile-user-section">
-                <div className="mobile-avatar" onClick={toggleDropdown}>
-                  <div className="avatar-e-navbar3">{getInitial()}</div>
-                  <span>{user?.name || 'User'}</span>
-                </div>
+              <div className="mobile-token-section">
                 <div className="token-balance-navbar3">
                   <span className="token-amount">{credit || 0}</span>
                   <span className="token-icon">🪙</span>
@@ -156,21 +161,17 @@ const Navbar = ({ user, setUser }) => {
                 </div>
               </div>
               <div className="mobile-menu-items">
-                <Link to='/' className="menu-item-navbar-s" onClick={() => setIsMenuOpen(false)}>
+                <Link to='/' className="menu-item-navbar-s">
                   <Home size={20} />
                   <span>Home</span>
                 </Link>
-                <Link to='/create' className="menu-item-navbar-s" onClick={() => setIsMenuOpen(false)}>
+                <Link to='/create' className="menu-item-navbar-s">
                   <Wand2 size={20} />
                   <span>Create</span>
                 </Link>
-                <Link to='/profile' className="menu-item-navbar-s" onClick={() => setIsMenuOpen(false)}>
+                <Link to='/profile' className="menu-item-navbar-s">
                   <User size={20} />
                   <span>Profile</span>
-                </Link>
-                <Link to='/saved' className="menu-item-navbar-s" onClick={() => setIsMenuOpen(false)}>
-                  <FileVideo size={20} />
-                  <span>Saved Videos</span>
                 </Link>
                 <button className="menu-item-navbar-s" onClick={handleLogout}>
                   <LogOut size={20} />
