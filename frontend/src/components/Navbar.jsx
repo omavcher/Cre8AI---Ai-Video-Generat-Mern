@@ -153,7 +153,7 @@ const Navbar = ({ user, setUser }) => {
             <>
               <div className="mobile-token-section">
                 <div className="token-balance-navbar3">
-                  <span className="token-amount">{user.tokens || 0}</span>
+                  <span className="token-amount">{credit || 0}</span>
                   <span className="token-icon">🪙</span>
                   <button className="add-tokens-btn-navbar" onClick={handleBuyTokens}>
                     <Plus size={16} />
