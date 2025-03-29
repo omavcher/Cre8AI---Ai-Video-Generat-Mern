@@ -125,7 +125,7 @@ const Navbar = ({ user, setUser }) => {
         {/* Mobile Navigation */}
         <div className="mobile-nav" ref={menuRef}>
           <button className="avatar-button-navbar3 mobile-avatar" onClick={toggleDropdown}>
-            <div className="avatar-e-navbar3">{getInitial()}</div>
+<div className="avatar-e-navbar3">user ? {getInitial()}</div>
           </button>
           <button className="mobile-menu-button" onClick={toggleMenu}>
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
