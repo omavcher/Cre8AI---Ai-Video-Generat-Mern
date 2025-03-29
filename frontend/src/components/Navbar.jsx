@@ -49,7 +49,7 @@ const Navbar = ({ user, setUser }) => {
 
   // Get first letter of name for avatar
   const getInitial = () => {
-    return user?.name ? user.name.charAt(0).toUpperCase() : '?';
+    return user?.name ? user.name.charAt(0).toUpperCase() : '🖐️';
   };
   
   useEffect(() => { 
