@@ -6,7 +6,7 @@ import "./ExportDialog.css";
 
 const ExportDialog = ({ onClose, onDownload, videoId }) => {
   const [adWatched, setAdWatched] = useState(false);
-  const [timer, setTimer] = useState(60); // 1 minute timer
+  const [timer, setTimer] = useState(60); // 1-minute timer
   const [downloadEnabled, setDownloadEnabled] = useState(false);
   const [paymentAmount, setPaymentAmount] = useState(5); // Default ₹5
   const [userMessage, setUserMessage] = useState("");
@@ -58,6 +58,18 @@ const ExportDialog = ({ onClose, onDownload, videoId }) => {
     }
     return () => clearInterval(interval);
   }, [adWatched, timer]);
+
+  // Load and refresh Google Ads
+  useEffect(() => {
+    if (!adWatched) {
+      try {
+        window.adsbygoogle = window.adsbygoogle || [];
+        window.adsbygoogle.push({});
+      } catch (e) {
+        console.error("AdSense error:", e);
+      }
+    }
+  }, [adWatched]);
 
   const handleWatchAd = () => {
     console.log("Ad started...");
@@ -140,9 +152,14 @@ const ExportDialog = ({ onClose, onDownload, videoId }) => {
           <div className="ad-container">
             {!adWatched && (
               <>
-                <div className="ad-placeholder">
-                  <p>Simulated Ad Playing... ({timer}s remaining)</p>
-                </div>
+                <ins className="adsbygoogle"
+                  style={{ display: "block" }}
+                  data-ad-client="ca-pub-8343501385468147"
+                  data-ad-slot="9354053329"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true">
+                </ins>
+                <p>Ad Playing... ({timer}s remaining)</p>
                 <button className="watch-ad-btn" onClick={handleWatchAd}>
                   Watch Ad
                 </button>
