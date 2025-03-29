@@ -45,22 +45,7 @@ const Navbar = ({ user, setUser }) => {
     navigate('/buy-tokens');
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current && !dropdownRef.current.contains(event.target) &&
-        menuRef.current && !menuRef.current.contains(event.target)
-      ) {
-        setIsDropdownOpen(false);
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  
 
   // Get first letter of name for avatar
   const getInitial = () => {
