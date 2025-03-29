@@ -150,6 +150,10 @@ const Navbar = ({ user, setUser }) => {
                   <Home size={20} />
                   <span>Home</span>
                 </Link>
+                <Link to='/saved' className="menu-item-navbar-s">
+                  <FileVideo size={20} />
+                  <span>Saved</span>
+                </Link>
                 <Link to='/create' className="menu-item-navbar-s">
                   <Wand2 size={20} />
                   <span>Create</span>
