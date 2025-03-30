@@ -46,24 +46,54 @@ const userController = {
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
+    
+            if (!email || !password) {
+                return res.status(400).json({ message: 'Email and password are required' });
+            }
 
-            // Check for user email
+    
+            // Find user by email
             const user = await User.findOne({ email });
-            
-            if (user && (await bcrypt.compare(password, user.password))) {
+    
+            if (!user) {
+                return res.status(401).json({ message: 'Invalid credentials' });
+            }
+    
+    
+            // Ensure user has a password stored
+            if (!user.password) {
+                return res.status(500).json({ message: 'Password not set for this user' });
+            }
+    
+            // Compare hashed passwords
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (isMatch) {
                 res.json({
                     _id: user._id,
                     name: user.name,
                     email: user.email,
-                    token: generateToken(user._id)
+                    token: generateToken(user._id),
                 });
             } else {
                 res.status(401).json({ message: 'Invalid credentials' });
             }
         } catch (error) {
+            console.error('Login error:', error);
             res.status(500).json({ message: 'Server error', error: error.message });
         }
     },
+
+    
+    loginx:async (req, res) => {
+        try {
+          console.log('Request Body:', req.body); // Debugging ke liye
+          res.json({ message: 'Testing successful', data: req.body });
+        } catch (error) {
+          console.error('Error:', error);
+          res.status(500).json({ message: 'Server Error' });
+        }
+      },
+
 
     // Get user profile
     getProfile: async (req, res) => {

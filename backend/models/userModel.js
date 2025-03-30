@@ -26,19 +26,6 @@ const userSchema = new mongoose.Schema({
     aiCreations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AICreation' }]
 }, { timestamps: true });
 
-// Middleware to reset tokens daily
-userSchema.pre('save', function(next) {
-    const now = new Date();
-    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
-
-    // Check if it's a new day since last reset
-    if (!this.lastTokenReset || (now - this.lastTokenReset) >= oneDay) {
-        this.tokens = this.plan === 'Free' ? 100 : 999;
-        this.lastTokenReset = now;
-    }
-    
-    next();
-});
 
 // Optional: Method to manually reset tokens
 userSchema.methods.resetTokens = function() {

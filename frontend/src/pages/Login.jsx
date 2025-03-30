@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Brain, Lock, Mail, User2, Eye, EyeOff } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
-import { loginUser, googleAuth } from '../services/authService';
+import {  googleAuth } from '../services/authService';
 import './Login.css';
+import axios from 'axios';
+import { BASE_URL } from '../config/api';
 
 const Login = ({ setUser }) => {
   const navigate = useNavigate();
@@ -13,9 +15,8 @@ const Login = ({ setUser }) => {
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
-    name: ''
-  });
+    password: ''
+    });
 
   const handleChange = (e) => {
     setFormData({
@@ -24,30 +25,39 @@ const Login = ({ setUser }) => {
     });
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Sign In button clicked, form data:', formData); // Debug log
-
-    // Basic form validation
+  
     if (!formData.email || !formData.password) {
       setError('Please fill in all fields');
       return;
     }
-
+  
     try {
-      const userData = await loginUser(formData);
-      console.log('Login successful:', userData); // Debug log
-      localStorage.setItem('user', JSON.stringify(userData));
-      setUser(userData);
-      
+      const response = await axios.post(`${BASE_URL}/users/login`, formData, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+  
+      localStorage.setItem('user', JSON.stringify(response.data));
+      setUser(response.data);
+  
       const from = location.state?.from || '/create';
       navigate(from, { replace: true });
+  
     } catch (error) {
-      console.error('Login error:', error); // Debug log
-      setError(error.response?.data?.message || 'Login failed');
+      console.error('Login error:', error);
+  
+      if (error.response?.data?.message === 'Password not set for this user') {
+        setError('Please sign in using Google....');
+  
+      } else {
+        setError(error.response?.data?.message || 'Login failed');
+      }
     }
   };
-
+  
+  
   const handleGoogleSuccess = async (response) => {
     try {
       const userData = await googleAuth(response.credential);
@@ -153,11 +163,7 @@ const Login = ({ setUser }) => {
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
-                {isLogin && (
-                  <a href="#forgot" className="forgot-link">
-                    Forgot Password?
-                  </a>
-                )}
+        
               </div>
 
               <button
